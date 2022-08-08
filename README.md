@@ -16,13 +16,13 @@ Package of sample scripts, walkthroughs, and other content for the Chicago Linod
 
 Below are some key commands that will be used in the workshop
 
--installing git from a shell:
+- installing git from a shell:
 
--Cloning this repository once git is installed:
+- Cloning this repository once git is installed:
 
--Terraform commands:
+- Terraform commands:
 
--Kubectl commands:
+- Kubectl commands:
 
 ### Illustrations
 
