@@ -3,7 +3,7 @@ Chicago Linode Workshop
 
 ## About
 
-Package of sample scripts, walkthroughs, and other content for the Chicago Linode Workshop.
+Package of template files, examples, and illustrations for the Chicago Linode Workshop.
 
 ## Contents
 
