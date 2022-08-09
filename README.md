@@ -24,6 +24,11 @@ Below are some key commands that will be used in the workshop
 
 - Kubectl commands:
 
+-- Exposing a kubernetes deployment:
+```
+kubectl expose deployment nginx-workshop --type=LoadBalancer --name=nginx-workshop --namespace chicago-workshop
+```
+
 ### Illustrations
 
 The below diagrams illustrate each step of the workshop from an architectural standpoint-
