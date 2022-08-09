@@ -83,6 +83,10 @@ kubectl create -f deployment.yaml
 ```
 kubectl expose deployment nginx-workshop --type=LoadBalancer --name=nginx-workshop --namespace chicago-workshop
 ```
+- Getting information on a kubernetes service:
+```
+kubectl get services -A
+```
 
 ### Illustrations
 
