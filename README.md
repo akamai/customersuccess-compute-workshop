@@ -41,6 +41,17 @@ echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
 sudo apt update
 sudo apt-get install terraform
 ```
+- Initializing Terraform and planning a deployment:
+```
+terraform init
+terraform plan \
+ -var-file="terraform.tfvars"
+ ```
+ - Applying a terraform plan:
+ ```
+ terraform apply \
+ -var-file="terraform.tfvars"
+ ```
 
 #### Kubectl commands:
 - installing kubectl:
