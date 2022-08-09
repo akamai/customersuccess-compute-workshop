@@ -18,7 +18,15 @@ Below are some key commands that will be used in the workshop
 
 - installing git from a shell:
 
+```
+sudo apt-get git
+```
+
 - Cloning this repository once git is installed:
+
+```
+git init && git pull https://github.com/ccie7599/chicago-workshop
+```
 
 - Terraform commands:
 
