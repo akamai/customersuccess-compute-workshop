@@ -28,10 +28,22 @@ sudo apt-get git
 git init && git pull https://github.com/ccie7599/chicago-workshop
 ```
 
-- Terraform commands:
+#### Terraform commands:
+- Installing terraform:
+```
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+wget -O- https://apt.releases.hashicorp.com/gpg | \
+    gpg --dearmor | \
+    sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+    https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+    sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update
+sudo apt-get install terraform
+```
 
-- Kubectl commands:
--- installing kubectl:
+#### Kubectl commands:
+- installing kubectl:
 ```
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl
@@ -41,7 +53,7 @@ sudo apt-get update
 sudo apt-get install -y kubectl
 ```
 
--- Exposing a kubernetes deployment:
+- Exposing a kubernetes deployment:
 ```
 kubectl expose deployment nginx-workshop --type=LoadBalancer --name=nginx-workshop --namespace chicago-workshop
 ```
