@@ -75,6 +75,10 @@ sudo apt-get install -y kubectl
 ```
 export KUBECONFIG=lke-cluster-config.yaml
 ```
+- Applying a kubernetes deployment:
+```
+kubectl create -f deployment.yaml
+```
 - Exposing a kubernetes deployment:
 ```
 kubectl expose deployment nginx-workshop --type=LoadBalancer --name=nginx-workshop --namespace chicago-workshop
