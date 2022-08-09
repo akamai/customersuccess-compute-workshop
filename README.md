@@ -63,7 +63,14 @@ echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https:/
 sudo apt-get update
 sudo apt-get install -y kubectl
 ```
-
+- Exporting terraform output to a kubeconfig file:
+```
+ export KUBE_VAR=`terraform output kubeconfig` && echo $KUBE_VAR | base64 -di > lke-cluster-config.yaml
+```
+- Adding the contents of the kubeconfig file to a env variable:
+```
+export KUBECONFIG=lke-cluster-config.yaml
+```
 - Exposing a kubernetes deployment:
 ```
 kubectl expose deployment nginx-workshop --type=LoadBalancer --name=nginx-workshop --namespace chicago-workshop
