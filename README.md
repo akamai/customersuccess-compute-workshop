@@ -41,6 +41,10 @@ echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
 sudo apt update
 sudo apt-get install terraform
 ```
+- Setting an env variable with your Linode API Token for Terraform use:
+```
+export TF_VAR_token=[api token value]
+```
 - Initializing Terraform and planning a deployment:
 ```
 terraform init
