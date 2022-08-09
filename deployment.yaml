@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-workshop
+  namespace: multicloud-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-workshop
+  template:
+    metadata:
+      labels:
+        app: nginx-workshop
+    spec:
+      containers:
+      - name: nginx-workshop
+        image: brianapley/nginx-workshop
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+       
