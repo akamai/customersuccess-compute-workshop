@@ -16,7 +16,21 @@ provider "linode" {
 resource "linode_lke_cluster" "foobar" {
     k8s_version = var.k8s_version
     label = var.label
-    region = var.region
+    region = us-west
+    tags = var.tags
+
+    dynamic "pool" {
+        for_each = var.pools
+        content {
+            type  = pool.value["type"]
+            count = pool.value["count"]
+        }
+    }
+}
+resource "linode_lke_cluster" "foobar2" {
+    k8s_version = var.k8s_version
+    label = var.label
+    region = us-east-1
     tags = var.tags
 
     dynamic "pool" {
@@ -28,8 +42,12 @@ resource "linode_lke_cluster" "foobar" {
     }
 }
 //Export this cluster's attributes
-output "kubeconfig" {
+output "kubeconfig_1" {
    value = linode_lke_cluster.foobar.kubeconfig
+   sensitive = true
+}
+output "kubeconfig_2" {
+   value = linode_lke_cluster.foobar2.kubeconfig
    sensitive = true
 }
 
