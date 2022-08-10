@@ -43,7 +43,7 @@ resource "linode_lke_cluster" "foobar2" {
 }
 //Export this cluster's attributes
 output "kubeconfig" {
-   value = linode_lke_cluster.foobar.kubeconfig
+   value = linode_lke_cluster.foobar2.kubeconfig
    sensitive = true
 }
 
