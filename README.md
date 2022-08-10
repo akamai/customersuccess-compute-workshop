@@ -19,7 +19,7 @@ Below are some key commands that will be used in the workshop
 - installing git from a shell:
 
 ```
-sudo apt-get git
+sudo apt-get install git
 ```
 
 - Cloning this repository once git is installed:
