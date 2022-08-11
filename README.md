@@ -12,22 +12,6 @@ Package of template files, examples, and illustrations for the Chicago Linode Wo
 - Sample kubernetes deployment files for starting an application on an LKE cluster.
 
 
-- Setting an env variable with your Linode API Token for Terraform use:
-```
-export TF_VAR_token=[api token value]
-```
-- Initializing Terraform and planning a deployment:
-```
-terraform init
-terraform plan \
- -var-file="terraform.tfvars"
- ```
- - Applying a terraform plan:
- ```
- terraform apply \
- -var-file="terraform.tfvars"
- ```
-
 ### Kubectl commands:
 - installing kubectl:
 ```
@@ -148,3 +132,31 @@ Once deployment is complete, you should see 2 LKE clusters within the "Kubernete
 ### Deploy Containers to LKE 
 ![k8](https://user-images.githubusercontent.com/19197357/184130510-08d983b6-109c-4bdb-b50c-db97fec3571d.png)
 
+Next step is to use kubectl to deploy the NGINX endpoints to each LKE cluster. 
+
+1. Install kubectl via the below commands from the Linode shell-
+```
+sudo apt-get update \
+sudo apt-get install -y ca-certificates curl \
+sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg \
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list \
+sudo apt-get update \
+sudo apt-get install -y kubectl
+```
+2. Extract the needed kubeconfig into a yaml file from the terraform output to manage the first cluster.
+```
+ export KUBE_VAR=`terraform output kubeconfig_1` && echo $KUBE_VAR | base64 -di > lke-cluster-config.yaml
+```
+3. Define the yaml file output from the prior step as the kubeconfig.
+```
+export KUBECONFIG=lke-cluster-config.yaml
+```
+4. You can now use kubectl to manage the first LKE cluster. Use kubectl to create a chicago-workshop namespace in the first LKE cluster.
+```
+kubectl create namespace chicago-workshop
+```
+5. Deploy an application to the LKE cluster, using the deployment.yaml file included in this repository-
+```
+kubectl create -f deployment.yaml
+```
+6. 
