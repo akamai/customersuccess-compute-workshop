@@ -11,38 +11,6 @@ Package of template files, examples, and illustrations for the Chicago Linode Wo
 - Sample Terraform files for deploying an LKE cluster on Linode.
 - Sample kubernetes deployment files for starting an application on an LKE cluster.
 
-
-### Kubectl commands:
-- installing kubectl:
-```
-sudo apt-get update
-sudo apt-get install -y ca-certificates curl
-sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-sudo apt-get update
-sudo apt-get install -y kubectl
-```
-- Exporting terraform output to a kubeconfig file:
-```
- export KUBE_VAR=`terraform output kubeconfig` && echo $KUBE_VAR | base64 -di > lke-cluster-config.yaml
-```
-- Adding the contents of the kubeconfig file to a env variable:
-```
-export KUBECONFIG=lke-cluster-config.yaml
-```
-- Applying a kubernetes deployment:
-```
-kubectl create -f deployment.yaml
-```
-- Exposing a kubernetes deployment:
-```
-kubectl expose deployment nginx-workshop --type=LoadBalancer --name=nginx-workshop --namespace chicago-workshop
-```
-- Getting information on a kubernetes service:
-```
-kubectl get services -A
-```
-
 ## Step by Step Instructions
 
 ### Overview
