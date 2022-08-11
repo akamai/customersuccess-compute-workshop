@@ -15,7 +15,7 @@ provider "linode" {
 //a Kubernetes cluster
 resource "linode_lke_cluster" "foobar" {
     k8s_version = var.k8s_version
-    label = var.label
+    label = "lke-west"
     region = "us-west"
     tags = var.tags
 
@@ -29,7 +29,7 @@ resource "linode_lke_cluster" "foobar" {
 }
 resource "linode_lke_cluster" "foobar2" {
     k8s_version = var.k8s_version
-    label = var.label
+    label = "lke-east"
     region = "us-east"
     tags = var.tags
 
