@@ -155,8 +155,47 @@ export KUBECONFIG=lke-cluster-config.yaml
 ```
 kubectl create namespace chicago-workshop
 ```
-5. Deploy an application to the LKE cluster, using the deployment.yaml file included in this repository-
+5. Deploy an application to the LKE cluster, using the deployment.yaml file included in this repository.
 ```
 kubectl create -f deployment.yaml
 ```
-6. 
+6. Expose the application deployment via kubectl to allow inbound traffic.
+```
+kubectl expose deployment nginx-workshop --type=LoadBalancer --name=nginx-workshop --namespace chicago-workshop
+```
+7. Validate that the service is running, and obtain it's external IP address.
+```
+kubectl get services -A
+```
+This command output should show a nginx-workshop deployment, with an external (Internet-routable, non-RFC1918) IP address. Make note of this external IP address as it represents the ingress point to your cluster application.
+
+8. Deploy the application to the second LKE cluster. First, delete the existing kubeconfig and re-generate a kubeconfig file for the second cluster.
+
+```
+ rm -f lke-cluster-config.yaml | export KUBE_VAR=`terraform output kubeconfig_2` && echo $KUBE_VAR | base64 -di > lke-cluster-config.yaml
+```
+9. Create the chicago-workshop namespace in the second cluster.
+```
+kubectl create namespace chicago-workshop
+```
+10. Deploy an application to the LKE cluster, using the deployment.yaml file included in this repository.
+```
+kubectl create -f deployment.yaml
+```
+11. Expose the application deployment via kubectl to allow inbound traffic.
+```
+kubectl expose deployment nginx-workshop --type=LoadBalancer --name=nginx-workshop --namespace chicago-workshop
+```
+12. Validate that the service is running, and obtain it's external IP address.
+```
+kubectl get services -A
+```
+As with the first cluster, record the external IP of the service for the 2nd cluster. 
+
+### Summary of Linode Provisioning 
+
+With the work above done, you've successfully setup redundant clusters in multiple linode regions, and deployed an endpoint application to each. The subsequent Akamai-centric steps in this workshop will use these deployments in various ways, depending on the use case.
+
+- As an alternate origin for site failover cases.
+- As a waiting room application for Visitor priorization.
+- To demonstrate Global Traffic Management capability for various multi-oriign scenarios (failover, load-balancing, performance, custom routing, geo-map, etc.).
