@@ -16,7 +16,7 @@ provider "linode" {
 resource "linode_lke_cluster" "foobar" {
     k8s_version = var.k8s_version
     label = var.label
-    region = us-west
+    region = "us-west"
     tags = var.tags
 
     dynamic "pool" {
@@ -30,7 +30,7 @@ resource "linode_lke_cluster" "foobar" {
 resource "linode_lke_cluster" "foobar2" {
     k8s_version = var.k8s_version
     label = var.label
-    region = us-east-1
+    region = "us-east-1"
     tags = var.tags
 
     dynamic "pool" {
