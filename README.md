@@ -1,18 +1,18 @@
 Chicago Linode Workshop
 ======================
 
-## About
+# About
 
 Package of template files, examples, and illustrations for the Chicago Linode Workshop.
 
-## Contents
+# Contents
 
-### Template Files
+## Template Files
 - Sample Terraform files for deploying an LKE cluster on Linode.
 - Sample kubernetes deployment files for starting an application on an LKE cluster.
 
 
-### Examples
+## Examples
 
 Below are some key commands that will be used in the workshop
 
@@ -28,7 +28,7 @@ sudo apt-get install git
 git init && git pull https://github.com/ccie7599/chicago-workshop
 ```
 
-#### Terraform commands:
+### Terraform commands:
 - Installing terraform:
 ```
 sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
@@ -57,7 +57,7 @@ terraform plan \
  -var-file="terraform.tfvars"
  ```
 
-#### Kubectl commands:
+### Kubectl commands:
 - installing kubectl:
 ```
 sudo apt-get update
@@ -88,9 +88,31 @@ kubectl expose deployment nginx-workshop --type=LoadBalancer --name=nginx-worksh
 kubectl get services -A
 ```
 
-### Illustrations
+## Step by Step Instructions
 
-The below diagrams illustrate each step of the workshop from an architectural standpoint-
+### Overview
+
+![workshop](https://user-images.githubusercontent.com/19197357/184126261-b94fbec5-a05d-4068-b8f1-3d00fd92fc00.png)
+
+The scenario is written to approximate deployment of a resillient, multi-region application for use in a failover or other situation where it would be necessary to serve from an alternate origin.
+
+The workshop scenario builds the following components and steps-
+
+1. A Secure Shell Linode (provisioned via the Linode Cloud Manager GUI) to serve as the command console for the envirnoment setup.
+
+2. Installing developer tools on the Secure Shell (git, terraform, and kubectl) for use in envinroment setup.
+
+3. Two Linode Kubernetes Engine (LKE) Clusters, each deployed to a different Linode region, provisioned via terraform.
+
+4. Deploying an NGINX container to each LKE cluster, and exposing an HTTP service from this deployment- this container includes static HTML content that at-present runs a browser-based Asteroids game.
+
+5. Applying Akamai Delivery, Security, and other advanced features in front of these clusters, including Global Traffic Management, Site Failover, and Visitor Prioritization.
+
+### Build a Secure Shell Linode
+
+We'll first create a Linode using the "Secure Your Server" Marketplace image. This will give us a hardened, consistent environment to run our subsequent commands from. 
+
+
 
 
 
