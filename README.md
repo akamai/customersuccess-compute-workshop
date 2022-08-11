@@ -119,7 +119,7 @@ sudo apt update \
 sudo apt-get install terraform
 ```
 ### Provision LKE Clusters using Terraform
-![lke](https://user-images.githubusercontent.com/19197357/184128462-b007865a-ff3e-49fa-a4fc-b33753951e4d.png)
+![tf](https://user-images.githubusercontent.com/19197357/184130473-91c36dfc-072b-43f7-882b-07407d7f2266.png)
 
 Next, we build LKE clusters, with the terraform files that are included in this repository, and pulled into the Linode Shell from the prior git command.
 
@@ -143,3 +143,8 @@ terraform plan \
  terraform apply \
  -var-file="terraform.tfvars"
  ```
+Once deployment is complete, you should see 2 LKE clusters within the "Kubernetes" section of your Linode Cloud Manager account.
+
+### Deploy Containers to LKE 
+![k8](https://user-images.githubusercontent.com/19197357/184130510-08d983b6-109c-4bdb-b50c-db97fec3571d.png)
+
