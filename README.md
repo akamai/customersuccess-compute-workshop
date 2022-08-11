@@ -11,19 +11,7 @@ Package of template files, examples, and illustrations for the Chicago Linode Wo
 - Sample Terraform files for deploying an LKE cluster on Linode.
 - Sample kubernetes deployment files for starting an application on an LKE cluster.
 
-### Terraform commands:
-- Installing terraform:
-```
-sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
-wget -O- https://apt.releases.hashicorp.com/gpg | \
-    gpg --dearmor | \
-    sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
-    https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
-    sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt update
-sudo apt-get install terraform
-```
+
 - Setting an env variable with your Linode API Token for Terraform use:
 ```
 export TF_VAR_token=[api token value]
@@ -133,6 +121,25 @@ sudo apt-get install terraform
 ### Provision LKE Clusters using Terraform
 ![lke](https://user-images.githubusercontent.com/19197357/184128462-b007865a-ff3e-49fa-a4fc-b33753951e4d.png)
 
+Next, we build LKE clusters, with the terraform files that are included in this repository, and pulled into the Linode Shell from the prior git command.
 
+1. From the Linode Cloud Manager, create an API token and copy it's value (NOTE- the Token should have full read-write access to all Linode components in order to work properly with terraform).
 
-
+2. From the Linode shell, set the TF_VAR_token env variable to the API token value. This will allow terraform to use the Linode API for infrastructure provisioning.
+```
+export TF_VAR_token=[api token value]
+```
+3. Initialize the Linode terraform provider-
+```
+terraform init 
+```
+4. Next, we'll use the supplied terraform files to provision the LKE clusters. First, run the "terraform plan" command to view the plan prior to deployment-
+```
+terraform plan \
+ -var-file="terraform.tfvars"
+ ```
+ 5. Run "terraform apply" to deploy the plan to Linode and build your LKE clusters-
+ ```
+ terraform apply \
+ -var-file="terraform.tfvars"
+ ```
