@@ -60,6 +60,8 @@ git init && git pull https://github.com/ccie7599/chicago-workshop
 Next step is to install Terraform. Run the below commands from the Linode shell-
 ```
 sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+```
+```
  wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
  ```
  ```
