@@ -138,35 +138,39 @@ NOTE: For ease of the workshop, the certificate and key are included in the repo
 ```
 kubectl create secret tls mqtttest --cert cert.pem --key key.pem
 ```
-6. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
+7. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
 ```
 kubectl create -f service.yaml
 ```
-7. Validate that the service is running, and obtain it's external IP address.
+8. Validate that the service is running, and obtain it's external IP address.
 ```
 kubectl get services -A
 ```
 This command output should show a nginx-workshop deployment, with an external (Internet-routable, non-RFC1918) IP address. Make note of this external IP address as it represents the ingress point to your cluster application.
 
-8. Deploy the application to the second LKE cluster. First, view the list of clusters with the below command.
+9. Deploy the application to the second LKE cluster. First, view the list of clusters with the below command.
 ```
 kubectl config get-contexts
 ```
-9. This will show a list of clusters, and the cluster currently being managed will have an asterisk next to it. Since we've already deployed our service to the first cluster, we have to switch to the second cluster. Type the below command, replacing [cluster2] with the name of the 2nd cluster in the list. 
+10. This will show a list of clusters, and the cluster currently being managed will have an asterisk next to it. Since we've already deployed our service to the first cluster, we have to switch to the second cluster. Type the below command, replacing [cluster2] with the name of the 2nd cluster in the list. 
 ```
 kubectl config use-context [cluster2]
 ```
 You could then run the Step 8 command (kubectl config get-contexts) again to verify that the active context has been set. 
 
-10. Deploy an application to the second LKE cluster, using the deployment.yaml file included in this repository.
+11. Deploy an application to the second LKE cluster, using the deployment.yaml file included in this repository.
 ```
 kubectl create -f deployment.yaml
 ```
-11. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
+12. For the 2nd cluster, we have to set our certificate and key as secrets for TLS to work.
+```
+kubectl create secret tls mqtttest --cert cert.pem --key key.pem
+```
+13. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
 ```
 kubectl create -f service.yaml
 ```
-12. Validate that the service is running, and obtain it's external IP address.
+14. Validate that the service is running, and obtain it's external IP address.
 ```
 kubectl get services -A
 ```
