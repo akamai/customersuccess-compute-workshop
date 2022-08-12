@@ -121,40 +121,32 @@ sudo apt-get update && sudo apt-get install -y kubectl
 ```
 export KUBECONFIG=lke-cluster-config.yaml
 ```
-4. You can now use kubectl to manage the first LKE cluster. Use kubectl to create a chicago-workshop namespace in the first LKE cluster.
-```
-kubectl create namespace chicago-workshop
-```
-5. Deploy an application to the LKE cluster, using the deployment.yaml file included in this repository.
+4. You can now use kubectl to manage the first LKE cluster. Deploy an application to the LKE cluster, using the deployment.yaml file included in this repository.
 ```
 kubectl create -f deployment.yaml
 ```
-6. Expose the application deployment via kubectl to allow inbound traffic.
+5. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
 ```
-kubectl expose deployment nginx-workshop --type=LoadBalancer --name=nginx-workshop --namespace chicago-workshop
+kubectl create -f service.yaml
 ```
-7. Validate that the service is running, and obtain it's external IP address.
+6. Validate that the service is running, and obtain it's external IP address.
 ```
 kubectl get services -A
 ```
 This command output should show a nginx-workshop deployment, with an external (Internet-routable, non-RFC1918) IP address. Make note of this external IP address as it represents the ingress point to your cluster application.
 
-8. Deploy the application to the second LKE cluster. First, delete the existing kubeconfig and re-generate a kubeconfig file for the second cluster.
+7. Deploy the application to the second LKE cluster. First, delete the existing kubeconfig and re-generate a kubeconfig file for the second cluster.
 
 ```
  rm -f lke-cluster-config.yaml | export KUBE_VAR=`terraform output kubeconfig_2` && echo $KUBE_VAR | base64 -di > lke-cluster-config.yaml
 ```
-9. Create the chicago-workshop namespace in the second cluster.
-```
-kubectl create namespace chicago-workshop
-```
-10. Deploy an application to the LKE cluster, using the deployment.yaml file included in this repository.
+8. Deploy an application to the second LKE cluster, using the deployment.yaml file included in this repository.
 ```
 kubectl create -f deployment.yaml
 ```
-11. Expose the application deployment via kubectl to allow inbound traffic.
+9. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
 ```
-kubectl expose deployment nginx-workshop --type=LoadBalancer --name=nginx-workshop --namespace chicago-workshop
+kubectl create -f service.yaml
 ```
 12. Validate that the service is running, and obtain it's external IP address.
 ```
