@@ -58,10 +58,17 @@ git init && git pull https://github.com/ccie7599/chicago-workshop
 ### Install Terraform 
 
 Next step is to install Terraform. Run the below commands from the Linode shell-
+```
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+ wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+ ```
+ ```
+ echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+ ```
+ ```
+  sudo apt update && sudo apt-get install terraform
+  ```
 
-```
-sudo apt-get update && sudo apt-get install -y gnupg software-properties-common && wget -O- https://apt.releases.hashicorp.com/gpg |  gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] && https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list && sudo apt update && sudo apt-get install terraform
-```
 ### Provision LKE Clusters using Terraform
 ![tf](https://user-images.githubusercontent.com/19197357/184130473-91c36dfc-072b-43f7-882b-07407d7f2266.png)
 
