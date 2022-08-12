@@ -125,30 +125,36 @@ export KUBECONFIG=lke-cluster-config.yaml
 ```
 kubectl create -f deployment.yaml
 ```
-5. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
+5. Next, we need to set our certificate and private key values as kubeconfig secrets. This will allow us to enable TLS on our LKE clusters. 
+
+NOTE: For ease of the workshop, the certificate and key are included in the repository. This is not a recommended practice.
+```
+kubectl create secret tls mqtttest --cert cert.pem --key key.pem
+```
+6. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
 ```
 kubectl create -f service.yaml
 ```
-6. Validate that the service is running, and obtain it's external IP address.
+7. Validate that the service is running, and obtain it's external IP address.
 ```
 kubectl get services -A
 ```
 This command output should show a nginx-workshop deployment, with an external (Internet-routable, non-RFC1918) IP address. Make note of this external IP address as it represents the ingress point to your cluster application.
 
-7. Deploy the application to the second LKE cluster. First, delete the existing kubeconfig and re-generate a kubeconfig file for the second cluster.
+8. Deploy the application to the second LKE cluster. First, delete the existing kubeconfig and re-generate a kubeconfig file for the second cluster.
 
 ```
  rm -f lke-cluster-config.yaml | export KUBE_VAR=`terraform output kubeconfig_2` && echo $KUBE_VAR | base64 -di > lke-cluster-config.yaml
 ```
-8. Deploy an application to the second LKE cluster, using the deployment.yaml file included in this repository.
+9. Deploy an application to the second LKE cluster, using the deployment.yaml file included in this repository.
 ```
 kubectl create -f deployment.yaml
 ```
-9. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
+10. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
 ```
 kubectl create -f service.yaml
 ```
-12. Validate that the service is running, and obtain it's external IP address.
+11. Validate that the service is running, and obtain it's external IP address.
 ```
 kubectl get services -A
 ```
