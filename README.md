@@ -113,19 +113,26 @@ echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https:/
 ```
 sudo apt-get update && sudo apt-get install -y kubectl
 ```
-2. Extract the needed kubeconfig into a yaml file from the terraform output to manage the first cluster.
+2. Extract the needed kubeconfig from each cluster into a yaml file from the terraform output.
 ```
- export KUBE_VAR=`terraform output kubeconfig_1` && echo $KUBE_VAR | base64 -di > lke-cluster-config.yaml
+ export KUBE_VAR=`terraform output kubeconfig_1` && echo $KUBE_VAR | base64 -di > lke-cluster-config1.yaml
+```
+```
+ export KUBE_VAR=`terraform output kubeconfig_2` && echo $KUBE_VAR | base64 -di > lke-cluster-config2.yaml
 ```
 3. Define the yaml file output from the prior step as the kubeconfig.
 ```
-export KUBECONFIG=lke-cluster-config.yaml
+export KUBECONFIG=lke-cluster-config1.yaml:lke-cluster-config2.yaml
 ```
-4. You can now use kubectl to manage the first LKE cluster. Deploy an application to the LKE cluster, using the deployment.yaml file included in this repository.
+4. You can now use kubectl to manage the first LKE cluster. Enter the below command to view a list of clusters, and view which cluster is currently being managed.
+```
+kubectl config get-contexts
+```
+5. Deploy an application to the first LKE cluster, using the deployment.yaml file included in this repository.
 ```
 kubectl create -f deployment.yaml
 ```
-5. Next, we need to set our certificate and private key values as kubeconfig secrets. This will allow us to enable TLS on our LKE clusters. 
+6. Next, we need to set our certificate and private key values as kubeconfig secrets. This will allow us to enable TLS on our LKE clusters. 
 
 NOTE: For ease of the workshop, the certificate and key are included in the repository. This is not a recommended practice.
 ```
@@ -141,20 +148,25 @@ kubectl get services -A
 ```
 This command output should show a nginx-workshop deployment, with an external (Internet-routable, non-RFC1918) IP address. Make note of this external IP address as it represents the ingress point to your cluster application.
 
-8. Deploy the application to the second LKE cluster. First, delete the existing kubeconfig and re-generate a kubeconfig file for the second cluster.
+8. Deploy the application to the second LKE cluster. First, view the list of clusters with the below command.
+```
+kubectl config get-contexts
+```
+9. This will show a list of clusters, and the cluster currently being managed will have an asterisk next to it. Since we've already deployed our service to the first cluster, we have to switch to the second cluster. Type the below command, replacing [cluster2] with the name of the 2nd cluster in the list. 
+```
+kubectl config use-context [cluster2]
+```
+You could then run the Step 8 command (kubectl config get-contexts) again to verify that the active context has been set. 
 
-```
- rm -f lke-cluster-config.yaml | export KUBE_VAR=`terraform output kubeconfig_2` && echo $KUBE_VAR | base64 -di > lke-cluster-config.yaml
-```
-9. Deploy an application to the second LKE cluster, using the deployment.yaml file included in this repository.
+10. Deploy an application to the second LKE cluster, using the deployment.yaml file included in this repository.
 ```
 kubectl create -f deployment.yaml
 ```
-10. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
+11. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
 ```
 kubectl create -f service.yaml
 ```
-11. Validate that the service is running, and obtain it's external IP address.
+12. Validate that the service is running, and obtain it's external IP address.
 ```
 kubectl get services -A
 ```
