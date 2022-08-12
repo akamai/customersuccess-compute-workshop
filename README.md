@@ -105,12 +105,13 @@ Next step is to use kubectl to deploy the NGINX endpoints to each LKE cluster.
 
 1. Install kubectl via the below commands from the Linode shell-
 ```
-sudo apt-get update \
-sudo apt-get install -y ca-certificates curl \
-sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg \
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list \
-sudo apt-get update \
-sudo apt-get install -y kubectl
+sudo apt-get update && sudo apt-get install -y ca-certificates curl && sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+```
+```
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+```
+```
+sudo apt-get update && sudo apt-get install -y kubectl
 ```
 2. Extract the needed kubeconfig into a yaml file from the terraform output to manage the first cluster.
 ```
