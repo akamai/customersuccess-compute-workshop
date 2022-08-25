@@ -36,7 +36,22 @@ The workshop scenario builds the following components and steps-
 
 We'll first create a Linode using the "Secure Your Server" Marketplace image. This will give us a hardened, consistent environment to run our subsequent commands from. 
 
-1. Login to Linode Cloud Manager, Select "Create Linode," and choose the "Secure Your Server" Marketplace image. 
+1. Create a Linode account
+ a. Goto https://login.linode.com/signup
+ b. Enter you akamai email address, a user name, and password
+ c. (Akamai employees get $100 per month of free services)
+
+2. Login to Linode Cloud Manager
+ a. https://login.linode.com/login
+3. Select "Create Linode"
+4. Select "Marketplace"
+5. Click the "Secure Your Server" Marketplace image. 
+6. Scroll down and complete the following steps:
+ a. Limited sudo user
+ b. Sudo password
+ c. Ssh key
+ d. No Advanced options are required
+
 2. Within the setup template for "Secure Your Server," select the Debian 11 image type. 
 3. Once your Linode is running, login to it's shell (either using the web-based LISH console from Linode Cloud Manager, or via your SSH client of choice).
 
