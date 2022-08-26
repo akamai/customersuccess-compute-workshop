@@ -37,23 +37,30 @@ The workshop scenario builds the following components and steps-
 We'll first create a Linode using the "Secure Your Server" Marketplace image. This will give us a hardened, consistent environment to run our subsequent commands from. 
 
 1. Create a Linode account
- a. Goto https://login.linode.com/signup
- b. Enter you akamai email address, a user name, and password
- c. (Akamai employees get $100 per month of free services)
+ - Goto https://login.linode.com/signup
+ - Enter you akamai email address, a user name, and password
+ - (Akamai employees get $100 per month of free services)
 
 2. Login to Linode Cloud Manager
- a. https://login.linode.com/login
+ - https://login.linode.com/login
 3. Select "Create Linode"
 4. Select "Marketplace"
 5. Click the "Secure Your Server" Marketplace image. 
 6. Scroll down and complete the following steps:
- a. Limited sudo user
- b. Sudo password
- c. Ssh key
- d. No Advanced options are required
+ - Limited sudo user
+ - Sudo password
+ - Ssh key
+ - No Advanced options are required
 
-2. Within the setup template for "Secure Your Server," select the Debian 11 image type. 
-3. Once your Linode is running, login to it's shell (either using the web-based LISH console from Linode Cloud Manager, or via your SSH client of choice).
+7. Select the Debian 11 image type for Select an Image
+8. Select a Region.
+9. Select the Shared CPU 1GB "Nanode" plan.
+10. Enter a root password.
+11. Click Create Linode.
+
+12. Once your Linode is running, login to it's shell (either using the web-based LISH console from Linode Cloud Manager, or via your SSH client of choice).
+
+
 
 ### Install and Run git 
 
@@ -78,13 +85,15 @@ sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
 ```
 ```
  wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
- ```
- ```
- echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
- ```
- ```
-  sudo apt update && sudo apt-get install terraform
-  ```
+```
+(Note:  This command may return what appears to be garbage to the terminal screen, but it does work.  Press `ctrl`-C to get your command line prompt back).
+ 
+```
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+```
+```
+sudo apt update && sudo apt-get install terraform
+```
 
 ### Provision LKE Clusters using Terraform
 ![tf](https://user-images.githubusercontent.com/19197357/184130473-91c36dfc-072b-43f7-882b-07407d7f2266.png)
@@ -92,6 +101,11 @@ sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
 Next, we build LKE clusters, with the terraform files that are included in this repository, and pulled into the Linode Shell from the prior git command.
 
 1. From the Linode Cloud Manager, create an API token and copy it's value (NOTE- the Token should have full read-write access to all Linode components in order to work properly with terraform).
+ - Click on your user name at the top right of the screen
+ - Select API Tokens
+ - Click Create a Personal Access Token
+ - Be sure to copy and save the token value
+
 
 2. From the Linode shell, set the TF_VAR_token env variable to the API token value. This will allow terraform to use the Linode API for infrastructure provisioning.
 ```
