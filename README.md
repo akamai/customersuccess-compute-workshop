@@ -21,7 +21,7 @@ The scenario is written to approximate deployment of a resillient, multi-region 
 
 The workshop scenario builds the following components and steps-
 
-1. A Secure Shell Linode (provisioned via the Linode Cloud Manager GUI) to serve as the command console for the envirnoment setup.
+1. A Secure Shell Linode (provisioned via the Linode Cloud Manager GUI) to serve as the command console for the environment setup.
 
 2. Installing developer tools on the Secure Shell (git, terraform, and kubectl) for use in envinroment setup.
 
@@ -246,4 +246,7 @@ The reference GTM configuration can be found in the Akamai Control Center TC-Eas
 ![IMG_0947](https://user-images.githubusercontent.com/19197357/189639466-77e12aaf-5d4d-4700-a57f-f34eb686fc4a.png)
 
 Once the domain is active, you should have a DNS name of "{Akamai ID}.mqtttest.com.akadns.net" active that will load balance between the external IPs of your Linode Kubernetes clusters. This name can be used as an origin for Akamai property configurations, such as a site failover origin in the event that a primary origin has failed. The NGINX application we deployed includes a valid origin wildcard certficate of "*.mqtttest.com," so be sure to use this as an origin host header when building any Akamai Property. 
+
+### Exercise Diagram
+![Linode Workshop Exercise](https://user-images.githubusercontent.com/19197357/189677303-00a93e97-a3dc-4f26-8a70-09689352e374.png)
 
