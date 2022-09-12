@@ -1,9 +1,9 @@
-Chicago Linode Workshop
+Linode Site Failover Workshop
 ======================
 
 # About
 
-Package of template files, examples, and illustrations for the Chicago Linode Workshop.
+Package of template files, examples, and illustrations for the Linode Site Failover Workshop Exercise.
 
 # Contents
 
@@ -212,3 +212,38 @@ With the work above done, you've successfully setup redundant clusters in multip
 - As an alternate origin for site failover cases.
 - As a waiting room application for Visitor priorization.
 - To demonstrate Global Traffic Management capability for various multi-oriign scenarios (failover, load-balancing, performance, custom routing, geo-map, etc.).
+
+### Akamai Global Traffic Management (GTM) Setup
+
+With the two endpoint external IP addresses that we recorded in steps 8 and 14 above, we now have a multi-region (in Linode Newark and Fremont regions), locally redundant origin (each region is a 3 machine LKE cluster, with the application running on 3 pods, and a Node Balancer deployed for local load balancing). We can now deploy Akamai GTM to load balance and failover in between the regions. 
+
+The reference GTM configuration can be found in the Akamai Control Center TC-East account, within the "mqtttest.com.akadns.net" domain. See below for a screenshot of the Control Center page for this domain.
+
+![IMG_0941](https://user-images.githubusercontent.com/19197357/189638998-9eab385b-ea87-4827-ac42-3b46f064c0c8.png)
+
+1. From this page, select "Add New Property." The New Property page should appear. 
+
+![IMG_0942](https://user-images.githubusercontent.com/19197357/189639167-09a445cc-23ba-457d-b91d-afa2c2929f06.png)
+
+2. Assign the property a prefix name according to your Akamai ID (i.e.- "bapley.mqtttest.com.akadns.net" for Brian Apley), and choose your own property type, DNS TTL, and IP version). In the example below, "Weighted Random Load Balancing" is chosen with the default 60s TTL, and IPv4. Select "Add to Change List and Next."
+
+3. From the "Traffic Targets" page, click on the "Balance All Targets Evenly," and enter the respective external IP addresses from the Linode portion of the exercise under the Newark and Fremont data centers. Click "Add to Change List and Next."
+
+![IMG_0943](https://user-images.githubusercontent.com/19197357/189639277-00a85170-1725-4b76-8117-38924ba8ea0d.png)
+
+4. From the "Liveness Test" page, enable the Liveness test, choose HTTPS as the protocol, and un-select "Certificate Verification." You can keep other settings as their default. The NGINX application we deployed answers at the root of the site (/), so be sure to keep "/" as the "Test Object Path." Click "Add to Change List and Next."
+
+![IMG_0944](https://user-images.githubusercontent.com/19197357/189639336-19489bea-b49f-4306-927c-173a26b0bfa6.png)
+
+5. From the "Review" page, all settings can be kept as default. Select "Add to Change List" at the bottom of the page.
+
+![IMG_0945](https://user-images.githubusercontent.com/19197357/189639395-6bcec156-216c-46e2-9361-418a60c69c21.png)
+
+6. The Control Center will now navigate back to the Domain page. Your new property should be listed as a Pending change. Select "Review Change List, add a comment for your property, and click "Activate Domain."
+
+![IMG_0946](https://user-images.githubusercontent.com/19197357/189639431-448f7a0e-8cfc-4845-91a9-bd0cda67d45e.png)
+
+![IMG_0947](https://user-images.githubusercontent.com/19197357/189639466-77e12aaf-5d4d-4700-a57f-f34eb686fc4a.png)
+
+Once the domain is active, you should have a DNS name of "{Akamai ID}.mqtttest.com.akadns.net" active that will load balance between the external IPs of your Linode Kubernetes clusters. This name can be used as an origin for Akamai property configurations, such as a site failover origin in the event that a primary origin has failed. The NGINX application we deployed includes a valid origin wildcard certficate of "*.mqtttest.com," so be sure to use this as an origin host header when building any Akamai Property. 
+
