@@ -12,7 +12,8 @@ Package of template files, examples, and illustrations for the Linode Site Failo
 - Sample kubernetes deployment files for starting an application on an LKE cluster.
 
 ### Exercise Diagram
-![Linode Workshop Exercise](https://user-images.githubusercontent.com/19197357/189677303-00a93e97-a3dc-4f26-8a70-09689352e374.png)
+
+![Linode Workshop Exercise](https://user-images.githubusercontent.com/19197357/189794358-dd435797-cdcd-4622-b196-48d76aa47ea7.jpg)
 
 ## Step by Step Instructions
 
@@ -248,4 +249,4 @@ The reference GTM configuration can be found in the Akamai Control Center TC-Eas
 
 Once the domain is active, you should have a DNS name of "{Akamai ID}.mqtttest.com.akadns.net" active that will load balance between the external IPs of your Linode Kubernetes clusters. This name can be used as an origin for Akamai property configurations, such as a site failover origin in the event that a primary origin has failed. The NGINX application we deployed includes a valid origin wildcard certficate of "*.mqtttest.com," so be sure to use this as an origin host header when building any Akamai Property. 
 
-![Linode Workshop Exercise](https://user-images.githubusercontent.com/19197357/189677303-00a93e97-a3dc-4f26-8a70-09689352e374.png)
+![Linode Workshop Exercise](https://user-images.githubusercontent.com/19197357/189794358-dd435797-cdcd-4622-b196-48d76aa47ea7.jpg)
