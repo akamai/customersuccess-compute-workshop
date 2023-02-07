@@ -99,10 +99,9 @@ echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://
 sudo apt update && sudo apt-get install terraform
 ```
 
-### Provision LKE Clusters using Terraform
-![tf](https://user-images.githubusercontent.com/19197357/184130473-91c36dfc-072b-43f7-882b-07407d7f2266.png)
+### Provision LKE Cluster using Terraform
 
-Next, we build LKE clusters, with the terraform files that are included in this repository, and pulled into the Linode Shell from the prior git command.
+Next, we build a LKE cluster, with the terraform files that are included in this repository, and pulled into the Linode Shell from the prior git command.
 
 1. From the Linode Cloud Manager, create an API token and copy it's value (NOTE- the Token should have full read-write access to all Linode components in order to work properly with terraform).
  - Click on your user name at the top right of the screen
@@ -132,7 +131,6 @@ terraform plan \
 Once deployment is complete, you should see 2 LKE clusters within the "Kubernetes" section of your Linode Cloud Manager account.
 
 ### Deploy Containers to LKE 
-![k8](https://user-images.githubusercontent.com/19197357/184130510-08d983b6-109c-4bdb-b50c-db97fec3571d.png)
 
 Next step is to use kubectl to deploy the Locust service to the LKE cluster. 
 
