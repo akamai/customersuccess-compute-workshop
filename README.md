@@ -159,3 +159,7 @@ kubectl create -f loadbalancer.yaml -f scripts-cm.yaml -f master-deployment.yaml
 kubectl get services -A
 ```
 This command output should show a locust-service deployment, with an external (Internet-routable, non-RFC1918) IP address. Make note of this external IP address as it represents the ingress point to the locust UI.
+
+### Installing the ELK Stack and Enabling DS2.
+
+1. Follow Okamoto-San's tutorial on deploying an ELK stack and enabling DS2 - https://collaborate.akamai.com/confluence/pages/viewpage.action?spaceKey=~hokamoto&title=Visualizing+DataStream+2+logs+with+Elasticsearch+and+Kibana+running+on+Linode. 
