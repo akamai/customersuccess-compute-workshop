@@ -150,11 +150,11 @@ sudo apt-get update && sudo apt-get install -y kubectl
 ```
 export KUBECONFIG=kubeconfig.yaml
 ```
-5. Deploy the locust application to the LKE cluster-
+3. Deploy the locust application to the LKE cluster-
 ```
 kubectl create -f loadbalancer.yaml -f scripts-cm.yaml -f master-deployment.yaml -f service.yaml -f worker-deployment.yaml
 ```
-8. Validate that the service is running, and obtain it's external IP address.
+4. Validate that the service is running, and obtain it's external IP address.
 ```
 kubectl get services -A
 ```
@@ -163,3 +163,18 @@ This command output should show a locust-service deployment, with an external (I
 ### Installing the ELK Stack and Enabling DS2.
 
 1. Follow Okamoto-San's tutorial on deploying an ELK stack and enabling DS2 - https://collaborate.akamai.com/confluence/pages/viewpage.action?spaceKey=~hokamoto&title=Visualizing+DataStream+2+logs+with+Elasticsearch+and+Kibana+running+on+Linode. 
+
+### Running a load test via locust.io
+
+The included configmap deployment file (scripts-cm.yaml) controls the python loadtest script that locust executes. We will need to update this script with our test website URL.
+
+1. Open the scripts-cm.yaml file via a shell text editor -
+```
+vi scripts-cm.yaml
+```
+2. Within the scripts-cm.yaml file, replace the "example.com" host header with the hostname created for the sample website.
+3. Load the new configmap into the cluster- this will load the updated script into Locust-
+```
+kubectl apply -f scripts-cm.yaml
+```
+4. Navigate to the Locust UI (this would be found at http://{service}:8089/, where {service} is the external IP of the LoadBalancer recorded earlier when entering ```kubectl get svc -A ``` . From the main screen, you can enter # of users, spawn rate, and DNS name of the target website, and slick "Start Swarming."
