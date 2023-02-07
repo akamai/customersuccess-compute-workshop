@@ -13,8 +13,6 @@ Package of template files, examples, and illustrations for the Customer Success 
 
 ### Exercise Diagram
 
-![Linode Workshop Exercise](https://user-images.githubusercontent.com/19197357/189794358-dd435797-cdcd-4622-b196-48d76aa47ea7.jpg)
-
 ## Step by Step Instructions
 
 ### Overview
