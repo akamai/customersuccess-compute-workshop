@@ -1,9 +1,9 @@
-Linode Site Failover Workshop
+Customer Success Data Stream + ELK + Locust Workshop
 ======================
 
 # About
 
-Package of template files, examples, and illustrations for the Linode Site Failover Workshop Exercise.
+Package of template files, examples, and illustrations for the Customer Success Workshop Exercise.
 
 # Contents
 
@@ -132,7 +132,7 @@ Once deployment is complete, you should see 2 LKE clusters within the "Kubernete
 ### Deploy Containers to LKE 
 ![k8](https://user-images.githubusercontent.com/19197357/184130510-08d983b6-109c-4bdb-b50c-db97fec3571d.png)
 
-Next step is to use kubectl to deploy the NGINX endpoints to each LKE cluster. 
+Next step is to use kubectl to deploy the Locust service to the LKE cluster. 
 
 1. Install kubectl via the below commands from the Linode shell-
 ```
@@ -148,9 +148,7 @@ sudo apt-get update && sudo apt-get install -y kubectl
 ```
  export KUBE_VAR=`terraform output kubeconfig_1` && echo $KUBE_VAR | base64 -di > lke-cluster-config1.yaml
 ```
-```
- export KUBE_VAR=`terraform output kubeconfig_2` && echo $KUBE_VAR | base64 -di > lke-cluster-config2.yaml
-```
+
 3. Define the yaml file output from the prior step as the kubeconfig.
 ```
 export KUBECONFIG=lke-cluster-config1.yaml:lke-cluster-config2.yaml
@@ -178,75 +176,3 @@ kubectl create -f service.yaml
 kubectl get services -A
 ```
 This command output should show a nginx-workshop deployment, with an external (Internet-routable, non-RFC1918) IP address. Make note of this external IP address as it represents the ingress point to your cluster application.
-
-9. Deploy the application to the second LKE cluster. First, view the list of clusters with the below command.
-```
-kubectl config get-contexts
-```
-10. This will show a list of clusters, and the cluster currently being managed will have an asterisk next to it. Since we've already deployed our service to the first cluster, we have to switch to the second cluster. Type the below command, replacing [cluster2] with the name of the 2nd cluster in the list. 
-```
-kubectl config use-context [cluster2]
-```
-You could then run the Step 8 command (kubectl config get-contexts) again to verify that the active context has been set. 
-
-11. Deploy an application to the second LKE cluster, using the deployment.yaml file included in this repository.
-```
-kubectl create -f deployment.yaml
-```
-12. For the 2nd cluster, we have to set our certificate and key as secrets for TLS to work.
-```
-kubectl create secret tls mqtttest --cert cert.pem --key key.pem
-```
-13. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
-```
-kubectl create -f service.yaml
-```
-14. Validate that the service is running, and obtain it's external IP address.
-```
-kubectl get services -A
-```
-As with the first cluster, record the external IP of the service for the 2nd cluster. 
-
-### Summary of Linode Provisioning 
-
-With the work above done, you've successfully setup redundant clusters in multiple linode regions, and deployed an endpoint application to each. The subsequent Akamai-centric steps in this workshop will use these deployments in various ways, depending on the use case.
-
-- As an alternate origin for site failover cases.
-- As a waiting room application for Visitor priorization.
-- To demonstrate Global Traffic Management capability for various multi-oriign scenarios (failover, load-balancing, performance, custom routing, geo-map, etc.).
-
-### Akamai Global Traffic Management (GTM) Setup
-
-With the two endpoint external IP addresses that we recorded in steps 8 and 14 above, we now have a multi-region (in Linode Newark and Fremont regions), locally redundant origin (each region is a 3 machine LKE cluster, with the application running on 3 pods, and a Node Balancer deployed for local load balancing). We can now deploy Akamai GTM to load balance and failover in between the regions. 
-
-The reference GTM configuration can be found in the Akamai Control Center TC-East account, within the "mqtttest.com.akadns.net" domain. See below for a screenshot of the Control Center page for this domain.
-
-![IMG_0941](https://user-images.githubusercontent.com/19197357/189638998-9eab385b-ea87-4827-ac42-3b46f064c0c8.png)
-
-1. From this page, select "Add New Property." The New Property page should appear. 
-
-![IMG_0942](https://user-images.githubusercontent.com/19197357/189639167-09a445cc-23ba-457d-b91d-afa2c2929f06.png)
-
-2. Assign the property a prefix name according to your Akamai ID (i.e.- "bapley.mqtttest.com.akadns.net" for Brian Apley), and choose your own property type, DNS TTL, and IP version). In the example below, "Weighted Random Load Balancing" is chosen with the default 60s TTL, and IPv4. Select "Add to Change List and Next."
-
-3. From the "Traffic Targets" page, click on the "Balance All Targets Evenly," and enter the respective external IP addresses from the Linode portion of the exercise under the Newark and Fremont data centers. Click "Add to Change List and Next."
-
-![IMG_0943](https://user-images.githubusercontent.com/19197357/189639277-00a85170-1725-4b76-8117-38924ba8ea0d.png)
-
-4. From the "Liveness Test" page, enable the Liveness test, choose HTTPS as the protocol, and un-select "Certificate Verification." You can keep other settings as their default. The NGINX application we deployed answers at the root of the site (/), so be sure to keep "/" as the "Test Object Path." Click "Add to Change List and Next."
-
-![IMG_0944](https://user-images.githubusercontent.com/19197357/189639336-19489bea-b49f-4306-927c-173a26b0bfa6.png)
-
-5. From the "Review" page, all settings can be kept as default. Select "Add to Change List" at the bottom of the page.
-
-![IMG_0945](https://user-images.githubusercontent.com/19197357/189639395-6bcec156-216c-46e2-9361-418a60c69c21.png)
-
-6. The Control Center will now navigate back to the Domain page. Your new property should be listed as a Pending change. Select "Review Change List, add a comment for your property, and click "Activate Domain."
-
-![IMG_0946](https://user-images.githubusercontent.com/19197357/189639431-448f7a0e-8cfc-4845-91a9-bd0cda67d45e.png)
-
-![IMG_0947](https://user-images.githubusercontent.com/19197357/189639466-77e12aaf-5d4d-4700-a57f-f34eb686fc4a.png)
-
-Once the domain is active, you should have a DNS name of "{Akamai ID}.mqtttest.com.akadns.net" active that will load balance between the external IPs of your Linode Kubernetes clusters. This name can be used as an origin for Akamai property configurations, such as a site failover origin in the event that a primary origin has failed. The NGINX application we deployed includes a valid origin wildcard certficate of "*.mqtttest.com," so be sure to use this as an origin host header when building any Akamai Property. 
-
-![Linode Workshop Exercise](https://user-images.githubusercontent.com/19197357/189794358-dd435797-cdcd-4622-b196-48d76aa47ea7.jpg)
