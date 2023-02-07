@@ -146,35 +146,16 @@ echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https:/
 ```
 sudo apt-get update && sudo apt-get install -y kubectl
 ```
-2. Extract the needed kubeconfig from each cluster into a yaml file from the terraform output.
+2. Set the generated kubeconfig.yaml file as the KUBECONFIG env variable- this will tell kubectl to use the configuration for the new cluster. 
 ```
- export KUBE_VAR=`terraform output kubeconfig_1` && echo $KUBE_VAR | base64 -di > lke-cluster-config1.yaml
+export KUBECONFIG=kubeconfig.yaml
 ```
-
-3. Define the yaml file output from the prior step as the kubeconfig.
+5. Deploy the locust application to the LKE cluster-
 ```
-export KUBECONFIG=lke-cluster-config1.yaml:lke-cluster-config2.yaml
-```
-4. You can now use kubectl to manage the first LKE cluster. Enter the below command to view a list of clusters, and view which cluster is currently being managed.
-```
-kubectl config get-contexts
-```
-5. Deploy an application to the first LKE cluster, using the deployment.yaml file included in this repository.
-```
-kubectl create -f deployment.yaml
-```
-6. Next, we need to set our certificate and private key values as kubeconfig secrets. This will allow us to enable TLS on our LKE clusters. 
-
-NOTE: For ease of the workshop, the certificate and key are included in the repository. This is not a recommended practice.
-```
-kubectl create secret tls mqtttest --cert cert.pem --key key.pem
-```
-7. Deploy the service.yaml included in the repository via kubectl to allow inbound traffic.
-```
-kubectl create -f service.yaml
+kubectl create -f loadbalancer.yaml -f scripts-cm.yaml -f master-deployment.yaml -f service.yaml -f worker-deployment.yaml
 ```
 8. Validate that the service is running, and obtain it's external IP address.
 ```
 kubectl get services -A
 ```
-This command output should show a nginx-workshop deployment, with an external (Internet-routable, non-RFC1918) IP address. Make note of this external IP address as it represents the ingress point to your cluster application.
+This command output should show a locust-service deployment, with an external (Internet-routable, non-RFC1918) IP address. Make note of this external IP address as it represents the ingress point to the locust UI.
