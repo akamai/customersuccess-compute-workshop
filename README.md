@@ -25,11 +25,15 @@ The workshop scenario builds the following components and steps-
 
 2. Installing developer tools on the Secure Shell (git, terraform, and kubectl) for use in envinroment setup.
 
-3. Two Linode Kubernetes Engine (LKE) Clusters, each deployed to a different Linode region, provisioned via terraform.
+3. A Linode Kubernetes Engine (LKE) Cluster provisioned via terraform.
 
-4. Deploying an NGINX container to each LKE cluster, and exposing an HTTP service from this deployment- this container includes static HTML content that at-present runs a browser-based Asteroids game.
+4. Deploying service files for a Locust (locust.io) load test cluster. 
 
-5. Applying Akamai Delivery, Security, and other advanced features in front of these clusters, including Global Traffic Management, Site Failover, and Visitor Prioritization.
+5. Building a sample site on Akamai, and enabling Data Stream 2.
+
+6. Building an ELK stack on Linode, and pointing the DS2 feed from the sample site to the ELK Stack. 
+
+7. Running a load test via locust, and viewing the results in Kibana from the DS2 data.
 
 ### Build a Secure Shell Linode
 ![shell](https://user-images.githubusercontent.com/19197357/184126449-454162f9-142f-47e6-ab73-3f1da5e5f456.png)
