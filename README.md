@@ -181,24 +181,6 @@ kubectl apply -f scripts-cm.yaml
 
 These next steps are a quick walkthough on hosting static content via Linode Object Storage, while using an access token for Akamai-Origin authentication. This is common use case for customers, and a good low-cost alternative to solutions where NetStorage is over-capable. 
 
-1. Login to Linode Cloud Manager (cloud.linode.com), and navigate to "Object Storage" from left-hand menu. From Object Storage page, select "Create Bucket." Enter a label for the bucket, choose a region, and select "create Bucket."
-
-![image](https://user-images.githubusercontent.com/19197357/223891975-ff97018c-ed13-43db-884d-f0814b04caba.png)
-
-2. Click on the name of the bucket to access the file manager UI for the bucket.
-
-![image](https://user-images.githubusercontent.com/19197357/223892692-0376670d-e809-45d2-b05d-ca564704d010.png)
-
-3. From the UI, upload the index.html file included in this repository. Once uploaded, click on the index.html filename to access details for the file. 
-
-![image](https://user-images.githubusercontent.com/19197357/223893461-4e7bbb2e-fafc-41ed-b191-be3b779de045.png)
-
-4. In the details screen, set the Access Control List (ACL) to "Authenticated Read." Copy the URL above the ACL, as this will be the Origin hostname used in the Akamai configuration. 
-
-![image](https://user-images.githubusercontent.com/19197357/223893896-bca6181d-58d0-45e5-81b4-9f4e75f4c614.png)
-
-4. In the details screen, set the Access Control List (ACL) to "Authenticated Read." Copy the URL above the ACL, as this will be the Origin hostname used in the Akamai configuration. 
-
 1. Login to the Linode Cloud Manager- Navigate to "Object Storage" from left hand menu. Click on "Access Keys" at top of page. Select "Create Acccess Keys."
 
 ![image](https://user-images.githubusercontent.com/19197357/223897008-ce549804-9ad7-4066-b012-34b3ca8bcfc0.png)
