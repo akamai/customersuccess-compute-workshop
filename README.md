@@ -179,7 +179,9 @@ kubectl apply -f scripts-cm.yaml
 
 ### Deploying a Simple HTML Origin via Linode Object Storage
 
-These next steps are a quick walkthough on hosting static content via Linode Object Storage, while using an access token for Akamai-Origin authentication. This is common use case for customers, and a good low-cost alternative to solutions where NetStorage is over-capable. 
+These next steps are a quick walkthough on hosting static content via Linode Object Storage. This is common use case for customers, and a good low-cost alternative to solutions where NetStorage is over-capable. 
+
+NOTE- it is highly recommend to implement authentication between Object Storage and Akamai when implementing for customers. Methods like Certificate pinning are good, token authentication even better, and Linode Object storage offers s3 commands and settings for other, more advanced security measures. 
 
 1. Login to the Linode Cloud Manager- Navigate to "Object Storage" from left hand menu. Click on "Access Keys" at top of page. Select "Create Acccess Keys."
 
@@ -205,4 +207,7 @@ When prompted, Select "N" (No) for "Test Access", and "Y" (yes) to "Save Setting
 
 The s3cmd utility is now configured, and we can provision a object storage bucket. 
 
+5. Create an Object Storage bucket via the ```s3cmd mb s3://{bucket name}``` command. Enter a unique value for bucket name, as it must be totally unique across the entire linode region. 
+
+6. Upload the index.html file from the repository via the ```s3cmd put index.html s3://{bucket name} -P``` command. If successful, the command will return the URL for the index.html file via the Object Storage bucket. Note the the file is accessible via HTTPS as well. This can be used as an Origin value for an Akamai content delivery property. 
 
