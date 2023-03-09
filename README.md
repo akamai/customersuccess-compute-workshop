@@ -176,3 +176,49 @@ vi scripts-cm.yaml
 kubectl apply -f scripts-cm.yaml
 ```
 4. Navigate to the Locust UI (this would be found at http://{service}:8089/, where {service} is the external IP of the LoadBalancer recorded earlier when entering ```kubectl get svc -A ``` . From the main screen, you can enter # of users, spawn rate, and DNS name of the target website, and slick "Start Swarming."
+
+### Deploying a Simple HTML Origin via Linode Object Storage
+
+These next steps are a quick walkthough on hosting static content via Linode Object Storage, while using an access token for Akamai-Origin authentication. This is common use case for customers, and a good low-cost alternative to solutions where NetStorage is over-capable. 
+
+1. Login to Linode Cloud Manager (cloud.linode.com), and navigate to "Object Storage" from left-hand menu. From Object Storage page, select "Create Bucket." Enter a label for the bucket, choose a region, and select "create Bucket."
+
+![image](https://user-images.githubusercontent.com/19197357/223891975-ff97018c-ed13-43db-884d-f0814b04caba.png)
+
+2. Click on the name of the bucket to access the file manager UI for the bucket.
+
+![image](https://user-images.githubusercontent.com/19197357/223892692-0376670d-e809-45d2-b05d-ca564704d010.png)
+
+3. From the UI, upload the index.html file included in this repository. Once uploaded, click on the index.html filename to access details for the file. 
+
+![image](https://user-images.githubusercontent.com/19197357/223893461-4e7bbb2e-fafc-41ed-b191-be3b779de045.png)
+
+4. In the details screen, set the Access Control List (ACL) to "Authenticated Read." Copy the URL above the ACL, as this will be the Origin hostname used in the Akamai configuration. 
+
+![image](https://user-images.githubusercontent.com/19197357/223893896-bca6181d-58d0-45e5-81b4-9f4e75f4c614.png)
+
+4. In the details screen, set the Access Control List (ACL) to "Authenticated Read." Copy the URL above the ACL, as this will be the Origin hostname used in the Akamai configuration. 
+
+1. Login to the Linode Cloud Manager- Navigate to "Object Storage" from left hand menu. Click on "Access Keys" at top of page. Select "Create Acccess Keys."
+
+![image](https://user-images.githubusercontent.com/19197357/223897008-ce549804-9ad7-4066-b012-34b3ca8bcfc0.png)
+
+2. Give the access key a label, select "Create Access Key," and copy the access key and secret key when they are shown. Keep care of the copy until the next step is complete, as it can't be shown again (simply delete and start over with a new key if the key values are lost). 
+
+3. Login to your Linode VM Shell, and install the s3cmd command.
+
+```
+sudo apt-get install s3cmd
+```
+
+4. Configure s3cmd with the ```s3cmd --configure``` command. Use these values when prompted-
+
+* Access Key and Secret Key - use the keys that you copied from step 2 above. 
+* Default Region - keep this at "US," even if using a different object storage region. 
+* S3 endpoint - enter the region ID in which you want to manage Object Storage. A list of region IDs can be found here - https://www.linode.com/docs/products/storage/object-storage/guides/urls/#cluster-url-s3-endpoint. For example, for Newark object storage, the value would be ```us-east-1.linodeobjects.com```.
+* DNS-style bucket+hostname:port - enter a value in the convention of %(bucket)s.{regionid}. For example, the value for Newark would be ```%(bucket)s.us-east-1.linodeobjects.com```.
+* Encryption password, Path to GPG Program, HTTPS, and Proxy can all be left as default.
+
+When prompted, Select "N" (No) for "Test Access", and "Y" (yes) to "Save Settings."
+
+The s3cmd utility is now configured, and we can provision a object storage bucket. 
