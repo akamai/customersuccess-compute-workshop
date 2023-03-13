@@ -78,7 +78,7 @@ sudo apt-get install git
 2. Pull down this repository to the Linode machine-
 
 ```
-git init && git pull https://github.com/akamai/linode-failover-workshop
+git init && git pull https://github.com/akamai/customersuccess-compute-workshop
 ```
 
 ### Install Terraform 
