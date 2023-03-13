@@ -209,12 +209,18 @@ The included configmap deployment file (scripts-cm.yaml) controls the python loa
 ```
 vi scripts-cm.yaml
 ```
-2. Within the scripts-cm.yaml file, replace the "example.com" host header with the hostname created for the sample website.
+2. Within the scripts-cm.yaml file, replace the "example.com" host header with the Akamaized hostname created for the sample website.
 3. Load the new configmap into the cluster- this will load the updated script into Locust-
-```
+```}
 kubectl apply -f scripts-cm.yaml
 ```
-4. Navigate to the Locust UI (this would be found at http://{service}:8089/, where {service} is the external IP of the LoadBalancer recorded earlier when entering ```kubectl get svc -A ``` . From the main screen, you can enter # of users, spawn rate, and DNS name of the target website, and slick "Start Swarming."
+4. Navigate to the Locust UI (this would be found at ```http://{service}:8089/```, where {service} is the external IP of the LoadBalancer recorded earlier when entering ```kubectl get svc -A ``` . From the main screen, please enter one {1} user, one {1} spawn rate, and DNS name of the target website, and slick "Start Swarming."
+
+NOTE- Please keep the user count and swarm rate to one {1} for purposes of this workshop. 
+
+5. Once the test is running, you can navigate to the differnt tabs within the Locust UI (```http://{service}:8089/```), to see statistics for the test, and export the dataset if needed.
+
+![image](https://user-images.githubusercontent.com/19197357/224817635-10481c1c-77ec-41af-9d46-2bf312b01acb.png)
 
 
 
