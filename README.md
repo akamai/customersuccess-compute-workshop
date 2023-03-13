@@ -13,6 +13,9 @@ Package of template files, examples, and illustrations for the Customer Success 
 
 ### Exercise Diagram
 
+![image](https://user-images.githubusercontent.com/19197357/224825979-9189bfa4-12ae-4288-b48e-6527dfba7a7f.png)
+
+
 ## Step by Step Instructions
 
 ### Overview
