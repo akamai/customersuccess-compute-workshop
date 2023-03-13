@@ -130,9 +130,13 @@ terraform plan \
  ```
 Once deployment is complete, you should see 2 LKE clusters within the "Kubernetes" section of your Linode Cloud Manager account.
 
-### Deploy Containers to LKE 
+### Deploy Locust.io to LKE 
 
-Next step is to use kubectl to deploy the Locust service to the LKE cluster. 
+Locust.io is a powerful, open-source, distributed load testing package. Combined with a Kubernetes platform such as LKE, and a multi-region Compute network such as Akamai/Linode, it can be very effective method to build a low-cost, low-effort scaled, distributed testing network for load and performance testing across almost any client protocol. 
+
+NOTE- The script below builds a very small locust.io testing network (single region, 2 workers). Please keep that bound during the exercise, as it's likely that 100s of colleagues might be doing the same, which could create more load then desired on the Object Storage origin. More importantly, this is a good time to test and ensure that your Akamai configuration is configured to agressively cache /index.html :-). 
+
+First step is to use kubectl to deploy the Locust service to the LKE cluster. 
 
 1. Install kubectl via the below commands from the Linode shell-
 ```
@@ -158,26 +162,8 @@ kubectl get services -A
 ```
 This command output should show a locust-service deployment, with an external (Internet-routable, non-RFC1918) IP address. Make note of this external IP address as it represents the ingress point to the locust UI.
 
-### Installing the ELK Stack and Enabling DS2.
-
-1. Follow Okamoto-San's tutorial on deploying an ELK stack and enabling DS2 - https://collaborate.akamai.com/confluence/pages/viewpage.action?spaceKey=~hokamoto&title=Visualizing+DataStream+2+logs+with+Elasticsearch+and+Kibana+running+on+Linode. 
-
-### Running a load test via locust.io
-
-The included configmap deployment file (scripts-cm.yaml) controls the python loadtest script that locust executes. We will need to update this script with our test website URL.
-
-1. Open the scripts-cm.yaml file via a shell text editor -
-```
-vi scripts-cm.yaml
-```
-2. Within the scripts-cm.yaml file, replace the "example.com" host header with the hostname created for the sample website.
-3. Load the new configmap into the cluster- this will load the updated script into Locust-
-```
-kubectl apply -f scripts-cm.yaml
-```
-4. Navigate to the Locust UI (this would be found at http://{service}:8089/, where {service} is the external IP of the LoadBalancer recorded earlier when entering ```kubectl get svc -A ``` . From the main screen, you can enter # of users, spawn rate, and DNS name of the target website, and slick "Start Swarming."
-
 ### Deploying a Simple HTML Origin via Linode Object Storage
+
 
 These next steps are a quick walkthough on hosting static content via Linode Object Storage. This is common use case for customers, and a good low-cost alternative to solutions where NetStorage is over-capable. 
 
@@ -210,4 +196,25 @@ The s3cmd utility is now configured, and we can provision a object storage bucke
 5. Create an Object Storage bucket via the ```s3cmd mb s3://{bucket name}``` command. Enter a unique value for bucket name, as it must be totally unique across the entire linode region. 
 
 6. Upload the index.html file from the repository via the ```s3cmd put index.html s3://{bucket name} -P``` command. If successful, the command will return the URL for the index.html file via the Object Storage bucket. Note the the file is accessible via HTTPS as well. This can be used as an Origin value for an Akamai content delivery property. 
+
+### Installing the ELK Stack and Enabling DS2.
+
+1. Follow Okamoto-San's tutorial on deploying an ELK stack and enabling DS2 - https://collaborate.akamai.com/confluence/pages/viewpage.action?spaceKey=~hokamoto&title=Visualizing+DataStream+2+logs+with+Elasticsearch+and+Kibana+running+on+Linode. 
+
+### Running a load test via locust.io
+
+The included configmap deployment file (scripts-cm.yaml) controls the python loadtest script that locust executes. We will need to update this script with our test website URL.
+
+1. Open the scripts-cm.yaml file via a shell text editor -
+```
+vi scripts-cm.yaml
+```
+2. Within the scripts-cm.yaml file, replace the "example.com" host header with the hostname created for the sample website.
+3. Load the new configmap into the cluster- this will load the updated script into Locust-
+```
+kubectl apply -f scripts-cm.yaml
+```
+4. Navigate to the Locust UI (this would be found at http://{service}:8089/, where {service} is the external IP of the LoadBalancer recorded earlier when entering ```kubectl get svc -A ``` . From the main screen, you can enter # of users, spawn rate, and DNS name of the target website, and slick "Start Swarming."
+
+
 
