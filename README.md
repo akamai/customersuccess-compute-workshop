@@ -201,7 +201,7 @@ The s3cmd utility is now configured, and we can provision a object storage bucke
 
 1. Follow Okamoto-San's tutorial on deploying an ELK stack and enabling DS2 - https://collaborate.akamai.com/confluence/pages/viewpage.action?spaceKey=~hokamoto&title=Visualizing+DataStream+2+logs+with+Elasticsearch+and+Kibana+running+on+Linode. 
 
-### Running a load test via locust.io
+### Running a Load Test via locust.io
 
 The included configmap deployment file (scripts-cm.yaml) controls the python loadtest script that locust executes. We will need to update this script with our test website URL.
 
@@ -216,11 +216,15 @@ kubectl apply -f scripts-cm.yaml
 ```
 4. Navigate to the Locust UI (this would be found at ```http://{service}:8089/```, where {service} is the external IP of the LoadBalancer recorded earlier when entering ```kubectl get svc -A ``` . From the main screen, please enter one {1} user, one {1} spawn rate, and DNS name of the target website, and slick "Start Swarming."
 
+![image](https://user-images.githubusercontent.com/19197357/224818462-a769e8fd-1255-43d0-93fa-e83dd9181daf.png)
+
 NOTE- Please keep the user count and swarm rate to one {1} for purposes of this workshop. 
 
 5. Once the test is running, you can navigate to the differnt tabs within the Locust UI (```http://{service}:8089/```), to see statistics for the test, and export the dataset if needed.
 
 ![image](https://user-images.githubusercontent.com/19197357/224817635-10481c1c-77ec-41af-9d46-2bf312b01acb.png)
+
+6. Click "Stop," otherwise the test will run indefinitely. 
 
 
 
