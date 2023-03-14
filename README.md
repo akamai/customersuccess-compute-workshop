@@ -39,9 +39,11 @@ The workshop scenario builds the following components and steps-
 7. Running a load test via locust, and viewing the results in Kibana from the DS2 data.
 
 ### Build a Secure Shell Linode
-![shell](https://user-images.githubusercontent.com/19197357/184126449-454162f9-142f-47e6-ab73-3f1da5e5f456.png)
 
-We'll first create a Linode using the "Secure Your Server" Marketplace image. This will give us a hardened, consistent environment to run our subsequent commands from. 
+![image](https://user-images.githubusercontent.com/19197357/224865364-29609e9a-8a48-4875-adcf-ae0331fbd8c4.png)
+
+
+The first step is to create a Linode using the "Secure Your Server" Marketplace image. This will give us a hardened, consistent environment to run our subsequent commands from. 
 
 1. Create a Linode account
  - Goto https://login.linode.com/signup
