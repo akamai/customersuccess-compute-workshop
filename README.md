@@ -174,6 +174,7 @@ This command output should show a locust-service deployment, with an external (I
 
 ### Deploying a Simple HTML Origin via Linode Object Storage
 
+![image](https://user-images.githubusercontent.com/19197357/224866158-f61a1616-997b-49a8-b759-8e8a590d4441.png)
 
 These next steps are a quick walkthough on hosting static content via Linode Object Storage. This is common use case for customers, and a good low-cost alternative to solutions where NetStorage is over-capable. 
 
@@ -208,6 +209,9 @@ The s3cmd utility is now configured, and we can provision a object storage bucke
 6. Upload the index.html file from the repository via the ```s3cmd put index.html s3://{bucket name} -P``` command. If successful, the command will return the URL for the index.html file via the Object Storage bucket. Note the the file is accessible via HTTPS as well. This can be used as an Origin value for an Akamai content delivery property. 
 
 ### Installing the ELK Stack and Enabling DS2.
+
+![image](https://user-images.githubusercontent.com/19197357/224866377-abe59095-d7cb-444f-a9cb-8178ca971138.png)
+
 
 1. Follow Okamoto-San's tutorial on deploying an ELK stack and enabling DS2 - https://collaborate.akamai.com/confluence/pages/viewpage.action?spaceKey=~hokamoto&title=Visualizing+DataStream+2+logs+with+Elasticsearch+and+Kibana+running+on+Linode. 
 
