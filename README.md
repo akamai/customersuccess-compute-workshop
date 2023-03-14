@@ -106,6 +106,8 @@ sudo apt update && sudo apt-get install terraform
 
 ### Provision LKE Cluster using Terraform
 
+![image](https://user-images.githubusercontent.com/19197357/224865627-4bcae90b-10c9-4eb8-8738-ec209a802120.png)
+
 Next, we build a LKE cluster, with the terraform files that are included in this repository, and pulled into the Linode Shell from the prior git command.
 
 1. From the Linode Cloud Manager, create an API token and copy it's value (NOTE- the Token should have full read-write access to all Linode components in order to work properly with terraform).
@@ -136,6 +138,8 @@ terraform plan \
 Once deployment is complete, you should see 2 LKE clusters within the "Kubernetes" section of your Linode Cloud Manager account.
 
 ### Deploy Locust.io to LKE 
+
+
 
 Locust.io is a powerful, open-source, distributed load testing package. Combined with a Kubernetes platform such as LKE, and a multi-region Compute network such as Akamai/Linode, it can be very effective method to build a low-cost, low-effort scaled, distributed testing network for load and performance testing across almost any client protocol. 
 
