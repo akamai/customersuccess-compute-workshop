@@ -20,7 +20,7 @@ Package of template files, examples, and illustrations for the Customer Success 
 
 ### Overview
 
-The scenario is written to approximate deployment of a resillient, multi-region application for use in a failover or other situation where it would be necessary to serve from an alternate origin.
+The scenario is written to approximate deployment of an application for use in a failover or other situation where it would be necessary to serve from an alternate origin, and the tooling to provide testing and observability - all powered by Akamai Connecte Cloud services. 
 
 The workshop scenario builds the following components and steps-
 
@@ -28,13 +28,13 @@ The workshop scenario builds the following components and steps-
 
 2. Installing developer tools on the Secure Shell (git, terraform, and kubectl) for use in envinroment setup.
 
-3. A Linode Kubernetes Engine (LKE) Cluster provisioned via terraform.
+3. A Linode Kubernetes Engine (LKE) Cluster for Locust provisioned via terraform.
 
 4. Deploying service files for a Locust (locust.io) load test cluster. 
 
-5. Building a sample site on Akamai, and enabling Data Stream 2.
+5. Building a sample site on Linode Object Storage, provisioning delivery and secured by Ion and AAP.
 
-6. Building an ELK stack on Linode, and pointing the DS2 feed from the sample site to the ELK Stack. 
+6. Building an ELK stack on Linode, provisioning and pointing the DS2 feed from the sample site to the ELK Stack. 
 
 7. Running a load test via locust, and viewing the results in Kibana from the DS2 data.
 
