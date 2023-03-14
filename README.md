@@ -139,6 +139,7 @@ Once deployment is complete, you should see 2 LKE clusters within the "Kubernete
 
 ### Deploy Locust.io to LKE 
 
+![image](https://user-images.githubusercontent.com/19197357/224865954-2d78d646-f666-4144-8a10-5b4348c9e264.png)
 
 
 Locust.io is a powerful, open-source, distributed load testing package. Combined with a Kubernetes platform such as LKE, and a multi-region Compute network such as Akamai/Linode, it can be very effective method to build a low-cost, low-effort scaled, distributed testing network for load and performance testing across almost any client protocol. 
