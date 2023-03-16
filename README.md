@@ -42,10 +42,13 @@ The workshop scenario builds the following components and steps-
 
 9. Running a load test via locust, and viewing the results in Kibana from the DS2 data.
 
-## NOTE: There is a bit of pre-work that should be completed before the first live workshop session
-### Pre-work: Ion and AAP for static site - initial setup
+
+### WORKSHOP PRE-WORK: Ion and AAP for static site - initial setup
+### Complete before the first live workshop session
 Follow the instructions here: https://docs.google.com/document/d/1ipqWLLPjv5LX_cuPnwZ2AjBw9EMeNH5Anq_1f9cZgAI 
 
+
+### DURING THE WORKSHOP:
 ### Build a Secure Shell Linode
 
 ![image](https://user-images.githubusercontent.com/19197357/224865364-29609e9a-8a48-4875-adcf-ae0331fbd8c4.png)
