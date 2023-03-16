@@ -20,7 +20,7 @@ Package of template files, examples, and illustrations for the Customer Success 
 
 ### Overview
 
-The scenario is written to approximate deployment of a resillient, multi-region application for use in a failover or other situation where it would be necessary to serve from an alternate origin.
+The scenario is written to approximate deployment of an application for use in a failover or other situation where it would be necessary to serve from an alternate origin, and the tooling to provide testing and observability - all powered by Akamai Connecte Cloud services. 
 
 The workshop scenario builds the following components and steps-
 
@@ -28,16 +28,27 @@ The workshop scenario builds the following components and steps-
 
 2. Installing developer tools on the Secure Shell (git, terraform, and kubectl) for use in envinroment setup.
 
-3. A Linode Kubernetes Engine (LKE) Cluster provisioned via terraform.
+3. A Linode Kubernetes Engine (LKE) Cluster for Locust provisioned via terraform.
 
-4. Deploying service files for a Locust (locust.io) load test cluster. 
+4. Deploying Locust (locust.io) in the Linode LKE cluster. 
 
-5. Building a sample site on Akamai, and enabling Data Stream 2.
+5. Building a static site on Linode Object Storage 
 
-6. Building an ELK stack on Linode, and pointing the DS2 feed from the sample site to the ELK Stack. 
+6. Building an ELK stack on Linode
 
-7. Running a load test via locust, and viewing the results in Kibana from the DS2 data.
+7. Ion and AAP for delivery and security of the sample site.  
 
+8. DS2 feed for sample site sent to the ELK Stack. 
+
+9. Running a load test via locust, and viewing the results in Kibana from the DS2 data.
+
+
+### WORKSHOP PRE-WORK: Ion and AAP for static site - initial setup
+### Complete before the first live workshop session
+Follow the instructions here: https://docs.google.com/document/d/1ipqWLLPjv5LX_cuPnwZ2AjBw9EMeNH5Anq_1f9cZgAI 
+
+
+### DURING THE WORKSHOP:
 ### Build a Secure Shell Linode
 
 ![image](https://user-images.githubusercontent.com/19197357/224865364-29609e9a-8a48-4875-adcf-ae0331fbd8c4.png)
@@ -208,12 +219,29 @@ The s3cmd utility is now configured, and we can provision a object storage bucke
 
 6. Upload the index.html file from the repository via the ```s3cmd put index.html s3://{bucket name} -P``` command. If successful, the command will return the URL for the index.html file via the Object Storage bucket. Note the the file is accessible via HTTPS as well. This can be used as an Origin value for an Akamai content delivery property. 
 
-### Installing the ELK Stack and Enabling DS2.
+### Building and Installing the ELK Stack
 
 ![image](https://user-images.githubusercontent.com/19197357/224866377-abe59095-d7cb-444f-a9cb-8178ca971138.png)
 
 
-1. Follow Okamoto-San's tutorial on deploying an ELK stack and enabling DS2 - https://collaborate.akamai.com/confluence/pages/viewpage.action?spaceKey=~hokamoto&title=Visualizing+DataStream+2+logs+with+Elasticsearch+and+Kibana+running+on+Linode. 
+Follow Okamoto-San's tutorial on deploying an ELK stack on Linode - https://collaborate.akamai.com/confluence/pages/viewpage.action?spaceKey=~hokamoto&title=Visualizing+DataStream+2+logs+with+Elasticsearch+and+Kibana+running+on+Linode. 
+
+### Provisioning Ion Delivery and AAP Static Site, Enabling DS2 
+In the Pre-work, you have already done most of the Ion and AAP setup for the static site, but the origin setting was a placeholder and needs to be updated, caching of HTML should be added, the DS2 stream needs to be provisioned, and a behavior needs to be added to the delivery property for DS2 to begin sending log data to the ELK stack.
+
+1. First, provision the DS2 Stream
+Follow the "Configure DataStream 2" steps in Okamoto-San's tutorial: https://collaborate.akamai.com/confluence/pages/viewpage.action?spaceKey=~hokamoto&title=Visualizing+DataStream+2+logs+with+Elasticsearch+and+Kibana+running+on+Linode#VisualizingDataStream2logswithElasticsearchandKibanarunningonLinode-ConfigureDataStream2
+-Select same Contract and Group as your delivery property 
+
+
+2. Create a new version of your delivery property
+-Edit the Origin Server, update the Origin Server field in your delivery property, replacing the placeholder origin with the origin hostname for the Object Storage where your demo static site is located
+-Follow the "Enable DataStream 2 in Akamai delivery properties" steps in Okamoto-San's tutorial: https://collaborate.akamai.com/confluence/pages/viewpage.action?spaceKey=~hokamoto&title=Visualizing+DataStream+2+logs+with+Elasticsearch+and+Kibana+running+on+Linode#VisualizingDataStream2logswithElasticsearchandKibanarunningonLinode-EnableDataStream2inAkamaideliveryproperties
+-Update one of the caching rules that match on file extension, adding .html to the match criteria such that .html files are cached in addition those already being cached.
+-Save and activate the property
+-Test your static site via browser and or ATC
+
+3. Log into Kibana, confirm you see some DS2
 
 ### Running a Load Test via locust.io
 
