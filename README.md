@@ -234,14 +234,18 @@ Follow the "Configure DataStream 2" steps in Okamoto-San's tutorial: https://col
 -Select same Contract and Group as your delivery property 
 
 
-2. Create a new version of your delivery property
--Edit the Origin Server, update the Origin Server field in your delivery property, replacing the placeholder origin with the origin hostname for the Object Storage where your demo static site is located
--Follow the "Enable DataStream 2 in Akamai delivery properties" steps in Okamoto-San's tutorial: https://collaborate.akamai.com/confluence/pages/viewpage.action?spaceKey=~hokamoto&title=Visualizing+DataStream+2+logs+with+Elasticsearch+and+Kibana+running+on+Linode#VisualizingDataStream2logswithElasticsearchandKibanarunningonLinode-EnableDataStream2inAkamaideliveryproperties
--Update one of the caching rules that match on file extension, adding .html to the match criteria such that .html files are cached in addition those already being cached.
--Save and activate the property
--Test your static site via browser and or ATC
+2. Create and edit a new version of your delivery property
+- Edit the Origin Server, update the Origin Server field in your delivery property, replacing the placeholder origin with the origin hostname for the Object Storage where your demo static site is located
 
-3. Log into Kibana, confirm you see some DS2
+- Update one of the caching rules that match on file extension, adding .html to the match criteria such that .html files are cached in addition those already being cached.
+
+- Follow the "Enable DataStream 2 in Akamai delivery properties" steps in Okamoto-San's tutorial: https://collaborate.akamai.com/confluence/pages/viewpage.action?spaceKey=~hokamoto&title=Visualizing+DataStream+2+logs+with+Elasticsearch+and+Kibana+running+on+Linode#VisualizingDataStream2logswithElasticsearchandKibanarunningonLinode-EnableDataStream2inAkamaideliveryproperties
+
+- Save and activate the property
+
+- Test your static site via browser and or ATC
+
+3. Log into Kibana, confirm you see some DS2 data
 
 ### Running a Load Test via locust.io
 
@@ -260,7 +264,7 @@ kubectl apply -f scripts-cm.yaml
 
 ![image](https://user-images.githubusercontent.com/19197357/224818462-a769e8fd-1255-43d0-93fa-e83dd9181daf.png)
 
-NOTE- Please keep the user count and swarm rate to one {1} for purposes of this workshop. 
+#### NOTE- Please keep the user count and swarm rate to one {1} for purposes of this worksho;, this will keep load test traffic volume hitting the edge region within acceptable limits
 
 5. Once the test is running, you can navigate to the differnt tabs within the Locust UI (```http://{service}:8089/```), to see statistics for the test, and export the dataset if needed.
 
@@ -268,5 +272,7 @@ NOTE- Please keep the user count and swarm rate to one {1} for purposes of this 
 
 6. Click "Stop," otherwise the test will run indefinitely. 
 
+### Review Load Test in ELK
 
+Log into your Kibana, review the DS2 data for the traffic generated during the sample load test
 
