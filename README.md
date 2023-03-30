@@ -20,7 +20,7 @@ Package of template files, examples, and illustrations for the Customer Success 
 
 ### Overview
 
-The scenario is written to approximate deployment of an application for use in a failover or other situation where it would be necessary to serve from an alternate origin, and the tooling to provide testing and observability - all powered by Akamai Connecte Cloud services. 
+The scenario is written to approximate deployment of an application for use in a failover or other situation where it would be necessary to serve from an alternate origin, and the tooling to provide testing and observability - all powered by Akamai Connected Cloud services. 
 
 The workshop scenario builds the following components and steps-
 
