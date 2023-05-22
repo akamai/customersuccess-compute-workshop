@@ -146,7 +146,7 @@ terraform plan \
  terraform apply \
  -var-file="terraform.tfvars"
  ```
-Once deployment is complete, you should see 2 LKE clusters within the "Kubernetes" section of your Linode Cloud Manager account.
+Once deployment is complete, you should see 1 LKE cluster within the "Kubernetes" section of your Linode Cloud Manager account.
 
 ### Deploy Locust.io to LKE 
 
