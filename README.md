@@ -260,6 +260,9 @@ vi scripts-cm.yaml
 ```}
 kubectl apply -f scripts-cm.yaml
 ```
+
+NOTE- applying a new configmap will require a restart of locust to reload the new config. To do this, first scale down the replicas of the locust-master service via the command ```kubectl scale deployment locust-master --replicas=0``` followed by ```kubectl scale deployment locust-master --replicas=1```.
+
 4. Navigate to the Locust UI (this would be found at ```http://{service}:8089/```, where {service} is the external IP of the LoadBalancer recorded earlier when entering ```kubectl get svc -A ``` . From the main screen, please enter one {1} user, one {1} spawn rate, and DNS name of the target website, and slick "Start Swarming."
 
 ![image](https://user-images.githubusercontent.com/19197357/224818462-a769e8fd-1255-43d0-93fa-e83dd9181daf.png)
