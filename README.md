@@ -162,7 +162,7 @@ terraform apply \
 
 Once deployment is complete, you should see 1 LKE cluster within the "Kubernetes" section of your Linode Cloud Manager account.
 
-> NOTE: Sometimes it is necessary to upgrade Kubernetes on your LKE cluster. The easiest method for doing this is via the Cloud Manager UI.
+> #### NOTE: Sometimes it is necessary to upgrade Kubernetes on your LKE cluster. The easiest method for doing this is via the Cloud Manager UI.
 >
 > 1. Navigate to the Kubernetes page in the Cloud Manager to see a list of all LKE clusters on your account.
 > 2. Locate the cluster you wish to upgrade and click the corresponding Upgrade button in the Version column. This button only appears if there is an available upgrade for that cluster.
