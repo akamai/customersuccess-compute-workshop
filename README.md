@@ -174,7 +174,7 @@ Once deployment is complete, you should see 1 LKE cluster within the "Kubernetes
 
 ### Deploy Locust.io to LKE
 
-![image](https://user-images.githubusercontent.com/19197357/224865954-2d78d646-f666-4144-8a10-5b4348c9e264.png)
+![lke-locust-cluster](https://github.com/nighthauk/customersuccess-compute-workshop/assets/396005/ef61e0d9-d6fb-45a9-993a-2d0607b5287a)
 
 Locust.io is a powerful, open-source, distributed load testing package. Combined with a Kubernetes platform such as LKE, and a multi-region Compute network such as Akamai/Linode, it can be very effective method to build a low-cost, low-effort scaled, distributed testing network for load and performance testing across almost any client protocol.
 
@@ -237,6 +237,9 @@ sudo apt-get install s3cmd
 ```
 
 4. Configure s3cmd with the `s3cmd --configure` command. Use these values when prompted-
+
+> **NOTE:**
+> s3cmd has some default configuration values which reference s3.amazonaws.com. Linode object storage is s3 compatible, which is what allows us to use this utility. Please ensure you are using your linode bucket information, and that you do not accept these amazonaws defaults.
 
 -   Access Key and Secret Key - use the keys that you copied from step 2 above.
 -   Default Region - keep this at "US," even if using a different object storage region.
