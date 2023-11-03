@@ -136,9 +136,13 @@ Next, we build a LKE cluster, with the terraform files that are included in this
 
 2. From the Linode shell, set the TF_VAR_token env variable to the API token value. This will allow terraform to use the Linode API for infrastructure provisioning.
 
+> **NOTE:** In any commands where you see the usage of `<value>` the following commands, do not include the `< >` brackets, only include the value to be used in your case!
+
 ```
-export TF_VAR_token=[api token value]
+export TF_VAR_token=<api token value>
 ```
+
+> For Example: `export TF_VAR_token=3459fg879833d4jh35gh43455345`
 
 3. Initialize the Linode terraform provider-
 
@@ -222,7 +226,8 @@ This command output should show a locust-service deployment, with an external (I
 
 These next steps are a quick walkthough on hosting static content via Linode Object Storage. This is common use case for customers, and a good low-cost alternative to solutions where NetStorage is over-capable.
 
-NOTE- it is highly recommend to implement authentication between Object Storage and Akamai when implementing for customers. Methods like Certificate pinning are good, token authentication even better, and Linode Object storage offers s3 commands and settings for other, more advanced security measures.
+> **NOTE:**
+> It is highly recommend to implement authentication between Object Storage and Akamai when implementing for customers. Methods like Certificate pinning are good, token authentication even better, and Linode Object storage offers s3 commands and settings for other, more advanced security measures.
 
 1. Login to the Linode Cloud Manager- Navigate to "Object Storage" from left hand menu. Click on "Access Keys" at top of page. Select "Create Acccess Keys."
 
@@ -244,16 +249,19 @@ sudo apt-get install s3cmd
 -   Access Key and Secret Key - use the keys that you copied from step 2 above.
 -   Default Region - keep this at "US," even if using a different object storage region.
 -   S3 endpoint - enter the region ID in which you want to manage Object Storage. A list of region IDs can be found here - https://www.linode.com/docs/products/storage/object-storage/guides/urls/#cluster-url-s3-endpoint. For example, for Newark object storage, the value would be `us-east-1.linodeobjects.com`.
--   DNS-style bucket+hostname:port - enter a value in the convention of %(bucket)s.{regionid}. For example, the value for Newark would be `%(bucket)s.us-east-1.linodeobjects.com`.
+-   DNS-style bucket+hostname:port - enter a value in the convention of %(bucket)s.<regionid>. Yes, the parenthesis should be left as is, but as noted above, do not include the `< >`.
+
+> For example, the value for Newark would be `%(bucket)s.us-east-1.linodeobjects.com`.
+
 -   Encryption password, Path to GPG Program, HTTPS, and Proxy can all be left as default.
 
 When prompted, Select "N" (No) for "Test Access", and "Y" (yes) to "Save Settings."
 
 The s3cmd utility is now configured, and we can provision a object storage bucket.
 
-5. Create an Object Storage bucket via the `s3cmd mb s3://{bucket name}` command. Enter a unique value for bucket name, as it must be totally unique across the entire linode region.
+5. Create an Object Storage bucket via the `s3cmd mb s3://<bucket name>` command. Enter a unique value for bucket name, as it must be totally unique across the entire linode region.
 
-6. Upload the index.html file from the repository via the `s3cmd put index.html s3://{bucket name} -P` command. If successful, the command will return the URL for the index.html file via the Object Storage bucket. Note the the file is accessible via HTTPS as well. This can be used as an Origin value for an Akamai content delivery property.
+6. Upload the index.html file from the repository via the `s3cmd put index.html s3://<bucket name> -P` command. If successful, the command will return the URL for the index.html file via the Object Storage bucket. Note the the file is accessible via HTTPS as well. This can be used as an Origin value for an Akamai content delivery property.
 
 ### Building and Installing the ELK Stack
 
@@ -296,19 +304,19 @@ vi scripts-cm.yaml
 2. Within the scripts-cm.yaml file, replace the "example.com" host header with the Akamaized hostname created for the sample website.
 3. Load the new configmap into the cluster- this will load the updated script into Locust-
 
-```}
+```
 kubectl apply -f scripts-cm.yaml
 ```
 
 NOTE- applying a new configmap will require a restart of locust to reload the new config. To do this, first scale down the replicas of the locust-master service via the command `kubectl scale deployment locust-master --replicas=0` followed by `kubectl scale deployment locust-master --replicas=1`.
 
-4. Navigate to the Locust UI (this would be found at `http://{service}:8089/`, where {service} is the external IP of the LoadBalancer recorded earlier when entering `kubectl get svc -A ` . From the main screen, please enter one {1} user, one {1} spawn rate, and DNS name of the target website, and slick "Start Swarming."
+4. Navigate to the Locust UI (this would be found at `http://<service>:8089/`, where <service> is the external IP of the LoadBalancer recorded earlier when entering `kubectl get svc -A ` . From the main screen, please enter one <1> user, one <1> spawn rate, and DNS name of the target website, and slick "Start Swarming."
 
 ![image](https://user-images.githubusercontent.com/19197357/224818462-a769e8fd-1255-43d0-93fa-e83dd9181daf.png)
 
-#### NOTE- Please keep the user count and swarm rate to one {1} for purposes of this worksho;, this will keep load test traffic volume hitting the edge region within acceptable limits
+#### NOTE- Please keep the user count and swarm rate to one <1> for purposes of this worksho;, this will keep load test traffic volume hitting the edge region within acceptable limits
 
-5. Once the test is running, you can navigate to the differnt tabs within the Locust UI (`http://{service}:8089/`), to see statistics for the test, and export the dataset if needed.
+5. Once the test is running, you can navigate to the differnt tabs within the Locust UI (`http://<service>:8089/`), to see statistics for the test, and export the dataset if needed.
 
 ![image](https://user-images.githubusercontent.com/19197357/224817635-10481c1c-77ec-41af-9d46-2bf312b01acb.png)
 
