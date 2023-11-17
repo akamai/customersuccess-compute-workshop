@@ -4,6 +4,27 @@
 
 Package of template files, examples, and illustrations for the Customer Success Workshop Exercise.
 
+> [!IMPORTANT]
+> Starting today, Akamai teams creating new internal workloads - whether for production or test purposes - must do so ONLY on New Core Compute Regions and not on Legacy Compute Regions.
+>
+> New Compute Regions:
+> | Location | Code |
+> |---------------------|------------|
+> | Amsterdam, NL | nl-ams |
+> | Chennai, IN | in-maa |
+> | Chicago, IL | us-ord |
+> | Jakarta, ID | id-cgk |
+> | Los Angeles, CA | us-lax |
+> | Madrid (coming soon)| - |
+> | Miami, FL | us-mia |
+> | Milan, IT | it-mil |
+> | Osaka, JP | jp-osa |
+> | Paris, FR | fr-par |
+> | Sao Paulo, BR | br-gru |
+> | Seattle, WA | us-sea |
+> | Stockholm, SE | se-sto |
+> | Washington, DC | us-iad |
+
 # Contents
 
 ## Template Files
@@ -136,7 +157,8 @@ Next, we build a LKE cluster, with the terraform files that are included in this
 
 2. From the Linode shell, set the TF_VAR_token env variable to the API token value. This will allow terraform to use the Linode API for infrastructure provisioning.
 
-> **NOTE:** In any commands where you see the usage of `<value>` the following commands, do not include the `< >` brackets, only include the value to be used in your case!
+> [!NOTE]
+> In any commands where you see the usage of `<value>` the following commands, do not include the `< >` brackets, only include the value to be used in your case!
 
 ```
 export TF_VAR_token=<api token value>
@@ -166,7 +188,9 @@ terraform apply \
 
 Once deployment is complete, you should see 1 LKE cluster within the "Kubernetes" section of your Linode Cloud Manager account.
 
-> #### NOTE: Sometimes it is necessary to upgrade Kubernetes on your LKE cluster. The easiest method for doing this is via the Cloud Manager UI.
+> [!NOTE]
+>
+> #### Sometimes it is necessary to upgrade Kubernetes on your LKE cluster. The easiest method for doing this is via the Cloud Manager UI.
 >
 > 1. Navigate to the Kubernetes page in the Cloud Manager to see a list of all LKE clusters on your account.
 > 2. Locate the cluster you wish to upgrade and click the corresponding Upgrade button in the Version column. This button only appears if there is an available upgrade for that cluster.
@@ -226,7 +250,7 @@ This command output should show a locust-service deployment, with an external (I
 
 These next steps are a quick walkthough on hosting static content via Linode Object Storage. This is common use case for customers, and a good low-cost alternative to solutions where NetStorage is over-capable.
 
-> **NOTE:**
+> [!NOTE]
 > It is highly recommend to implement authentication between Object Storage and Akamai when implementing for customers. Methods like Certificate pinning are good, token authentication even better, and Linode Object storage offers s3 commands and settings for other, more advanced security measures.
 
 1. Login to the Linode Cloud Manager- Navigate to "Object Storage" from left hand menu. Click on "Access Keys" at top of page. Select "Create Acccess Keys."
@@ -243,15 +267,15 @@ sudo apt-get install s3cmd
 
 4. Configure s3cmd with the `s3cmd --configure` command. Use these values when prompted-
 
-> **NOTE:**
+> [!NOTE]
 > s3cmd has some default configuration values which reference s3.amazonaws.com. Linode object storage is s3 compatible, which is what allows us to use this utility. Please ensure you are using your linode bucket information, and that you do not accept these amazonaws defaults.
 
 -   Access Key and Secret Key - use the keys that you copied from step 2 above.
 -   Default Region - keep this at "US," even if using a different object storage region.
--   S3 endpoint - enter the region ID in which you want to manage Object Storage. A list of region IDs can be found here - https://www.linode.com/docs/products/storage/object-storage/guides/urls/#cluster-url-s3-endpoint. For example, for Newark object storage, the value would be `us-east-1.linodeobjects.com`.
+-   S3 endpoint - enter the region ID in which you want to manage Object Storage. A list of region IDs can be found here - https://www.linode.com/docs/products/storage/object-storage/guides/urls/#cluster-url-s3-endpoint. For example, for Chicago object storage, the value would be `us-ord-1.linodeobjects.com`.
 -   DNS-style bucket+hostname:port - enter a value in the convention of %(bucket)s.<regionid>. Yes, the parenthesis should be left as is, but as noted above, do not include the `< >`.
 
-> For example, the value for Newark would be `%(bucket)s.us-east-1.linodeobjects.com`.
+> For example, the value for Chicago would be `%(bucket)s.us-ord-1.linodeobjects.com`.
 
 -   Encryption password, Path to GPG Program, HTTPS, and Proxy can all be left as default.
 
