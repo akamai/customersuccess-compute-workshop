@@ -14,7 +14,7 @@
 
     variable "region" {
       description = "The region where your cluster will be located. (required)"
-      default = "us-east"
+      default = "us-ord"
     }
 
     variable "tags" {
